@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({ log: ['query', 'error', 'warn', 'info'] })
 
 const users = [
     {
@@ -10,7 +10,7 @@ const users = [
     {
        fullName: 'Landi',
        photo: 'landi.jpg',
-       email: 'landi@email.com',
+       email: 'landi@email.com'
     },
     {
       
@@ -24,17 +24,17 @@ const users = [
      {
         image: 'imageurl1',
         name: 'mechanic',
-        active: true,
+        active: true
      },
      {
         image: 'imageurl2',
         name: 'electrican',
-        active: false,
+        active: false
      },
      {
         image: 'imageurl3',
         name: 'plumber',
-        active: true,
+        active: true
      },
   ];
   
