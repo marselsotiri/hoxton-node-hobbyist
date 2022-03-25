@@ -23,6 +23,31 @@ app.get('/users/:id', async (req, res) => {
    res.send(user);
 });
 
+app.post('/users', async (req, res) => {
+   const { fullName, photo, email, hobbies = [] } = req.body
+ 
+   const newUser = await prisma.user.create({
+     data: {
+       fullName,
+       photo,
+       email,
+       hobbies: {
+         // an array of {where, create} data for hobbies
+         connectOrCreate: hobbies.map((hobby: any) => ({
+           // try to find the hobby if it exists
+           where: { name: hobby.name },
+           // if it doesn't exist, create a new hobby
+           create: hobby
+         }))
+       }
+     },
+     include: {
+       hobbies: true
+     }
+   })
+   res.send(newUser)
+ })
+
 app.get('/hobbies', async (req, res) => {
    const hobbies = await prisma.hobby.findMany({
       include: { users: { include: { user: true } } },
